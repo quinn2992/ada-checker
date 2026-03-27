@@ -343,7 +343,16 @@ body {
 
 .results-header h2 { font-size: 18px; font-weight: 700; color: #1a2744; }
 
-.results-actions { display: flex; gap: 8px; }
+.results-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.download-beta-note {
+  font-size: 12px;
+  color: #92400e;
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: 4px;
+  padding: 3px 8px;
+}
 
 .summary-pills {
   display: flex;

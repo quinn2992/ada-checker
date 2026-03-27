@@ -142,6 +142,12 @@ async function handleFileUpload(file) {
     return;
   }
 
+  const MAX_SIZE = 30 * 1024 * 1024; // 30MB
+  if (file.size > MAX_SIZE) {
+    setError($('report-error'), `File is too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Maximum allowed size is 30 MB.`);
+    return;
+  }
+
   // Show a brief loading state in the drop zone
   dropZone.querySelector('.drop-label').textContent = 'Parsing report…';
 
