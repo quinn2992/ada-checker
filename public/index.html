@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADA Accessibility Re-Checker | Acadea</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ── Site header ─────────────────────────────────────────────────────── -->
+<header class="site-header">
+  <div class="logo">Acad<span>ea</span></div>
+  <div class="divider"></div>
+  <div class="tool-name">ADA Accessibility Re-Checker</div>
+</header>
+<div class="header-accent"></div>
+
+<!-- ── Warning banner ──────────────────────────────────────────────────── -->
+<div class="warning-banner">
+  <div class="warn-icon">⚠️</div>
+  <div>
+    <strong>Before you scan — your changes must be LIVE</strong>
+    <p>
+      This tool scans your public-facing URLs. Changes made in <strong>sandbox or preview mode will not be detected</strong>.
+      Make sure you have published your updates to your live site before running a scan.
+      If you're unsure, contact your system administrator to confirm your changes are live.
+    </p>
+  </div>
+</div>
+
+<!-- ── Main content ────────────────────────────────────────────────────── -->
+<main class="main">
+
+  <h1 class="page-title">ADA Compliance Re-Checker</h1>
+  <p class="page-subtitle">
+    Use this tool to verify whether the accessibility issues in your violation report have been resolved.
+    You can scan a single URL or upload your original violation report to re-check all affected pages at once.
+  </p>
+
+  <!-- ── Tabs ──────────────────────────────────────────────────────────── -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="single">Scan a Single URL</button>
+    <button class="tab-btn" data-tab="report">Upload Violation Report</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!--  Tab 1: Single URL                                                  -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <div id="tab-single" class="tab-panel active">
+    <div class="card">
+      <div class="card-title">Scan a single URL</div>
+      <div class="card-desc">
+        Enter the full public URL of the page you want to check. The URL must be live and publicly accessible
+        (not behind a login or in sandbox mode).
+      </div>
+
+      <div class="url-row">
+        <input
+          type="url"
+          id="single-url"
+          class="url-input"
+          placeholder="https://yourcollege.edu/public-search/courses"
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <button class="btn btn-primary" id="btn-scan-single">Scan URL</button>
+      </div>
+
+      <div id="single-error" class="error-msg hidden"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!--  Tab 2: Violation report upload                                     -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <div id="tab-report" class="tab-panel">
+    <div class="card">
+      <div class="card-title">Upload your violation report</div>
+      <div class="card-desc">
+        Upload the <strong>.htm</strong> violation report that was sent to you by Acadea. The tool will
+        extract all affected URLs and re-scan each one automatically.
+      </div>
+
+      <!-- Drop zone -->
+      <div class="drop-zone" id="drop-zone">
+        <div class="drop-icon">📄</div>
+        <div class="drop-label">Drop your violation report here</div>
+        <div class="drop-sub">or click to browse &nbsp;·&nbsp; Accepts .htm and .html files</div>
+        <input type="file" id="file-input" accept=".htm,.html">
+      </div>
+
+      <div id="report-error" class="error-msg hidden"></div>
+
+      <!-- URL list (shown after parse) -->
+      <div id="url-list-wrapper" class="url-list-wrapper hidden">
+        <div class="url-list-header">
+          <h3>URLs found in report</h3>
+          <span class="url-count" id="url-count"></span>
+        </div>
+
+        <div class="url-list" id="url-list">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="url-list-actions">
+          <button class="btn btn-sm btn-outline" id="btn-select-all">Select all</button>
+          <button class="btn btn-sm btn-outline" id="btn-deselect-all">Deselect all</button>
+          <button class="btn btn-red" id="btn-scan-report" style="margin-left: auto">
+            Scan selected URLs
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!--  Progress state (shared)                                            -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <div id="progress-section" class="hidden mt-16">
+    <div class="progress-card">
+      <div class="spinner"></div>
+      <h3 id="progress-title">Scanning…</h3>
+      <div class="progress-label" id="progress-label">Starting scan…</div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progress-bar"></div>
+      </div>
+      <div class="progress-count" id="progress-count"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!--  Results                                                            -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <div id="results-section" class="hidden mt-16">
+
+    <div class="results-header">
+      <h2>Scan Results</h2>
+      <div class="results-actions">
+        <button class="btn btn-outline btn-sm" id="btn-new-scan">← New scan</button>
+        <button class="btn btn-primary btn-sm" id="btn-download">⬇ Download Full Report</button>
+      </div>
+    </div>
+
+    <div class="summary-pills" id="summary-pills">
+      <!-- Populated by JS -->
+    </div>
+
+    <div id="violations-list">
+      <!-- Populated by JS -->
+    </div>
+
+  </div>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
