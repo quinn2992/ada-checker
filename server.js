@@ -13,10 +13,10 @@ const PORT = process.env.PORT || 3000;
 // In-memory job store (reset on server restart)
 const jobs = new Map();
 
-// Multer: accept HTM/HTML uploads up to 10MB
+// Multer: accept HTM/HTML uploads up to 30MB
 const upload = multer({
   dest: 'uploads/',
-  limits: { fileSize: 10 * 1024 * 1024 },
+  limits: { fileSize: 30 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     const ext = path.extname(file.originalname).toLowerCase();
     if (['.htm', '.html'].includes(ext)) {
