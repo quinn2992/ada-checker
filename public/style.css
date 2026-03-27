@@ -21,14 +21,9 @@ body {
   gap: 16px;
 }
 
-.site-header .logo {
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -.3px;
-}
-
-.site-header .logo span {
-  color: #d9342e;
+.site-header .logo-img {
+  height: 32px;
+  width: auto;
 }
 
 .site-header .divider {
@@ -73,6 +68,15 @@ body {
 .warning-banner p {
   font-size: 13px;
   color: #6d4c00;
+}
+
+/* ── CS team callout ─────────────────────────────────────────────────── */
+.cs-callout {
+  background: #eef2ff;
+  border-bottom: 1px solid #c7d2fe;
+  padding: 10px 40px;
+  font-size: 13px;
+  color: #3730a3;
 }
 
 /* ── Main layout ─────────────────────────────────────────────────────── */
@@ -339,7 +343,16 @@ body {
 
 .results-header h2 { font-size: 18px; font-weight: 700; color: #1a2744; }
 
-.results-actions { display: flex; gap: 8px; }
+.results-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.download-beta-note {
+  font-size: 12px;
+  color: #92400e;
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: 4px;
+  padding: 3px 8px;
+}
 
 .summary-pills {
   display: flex;
