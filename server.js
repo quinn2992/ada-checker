@@ -6,6 +6,7 @@ const { randomUUID } = require('crypto');
 const { scanUrl, closeBrowser } = require('./src/scanner');
 const { parseReport } = require('./src/parser');
 const { generateReport } = require('./src/reporter');
+const { enrichScanResults } = require('./src/enricher');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -40,7 +41,8 @@ app.post('/api/scan/single', async (req, res) => {
 
   try {
     const result = await scanUrl(url);
-    const report = generateReport([result], new URL(url).hostname);
+    const enrichmentMap = await enrichScanResults([result]);
+    const report = generateReport([result], new URL(url).hostname, enrichmentMap);
     res.json({ success: true, violations: result.violations?.length ?? 0, report });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -191,7 +193,12 @@ async function runJob(jobId) {
     job.progress = i + 1;
   }
 
-  job.report = generateReport(job.results);
+  // Enrich violations with AI-generated guidance (runs in parallel per rule)
+  job.status = 'enriching';
+  job.currentUrl = 'Generating AI-powered guidance for violations…';
+  const enrichmentMap = await enrichScanResults(job.results).catch(() => new Map());
+
+  job.report = generateReport(job.results, '', enrichmentMap);
   job.currentUrl = null;
   job.status = 'complete';
 

@@ -106,13 +106,35 @@ function renderInstance(inst) {
           </tr>
           <tr>
             <td class="lbl">Fix needed</td>
-            <td>${escapeHtml(inst.failureSummary)}</td>
+            <td class="fix-text">${escapeHtml(inst.failureSummary)}</td>
           </tr>
         </table>
       </div>`;
 }
 
-function renderRule(rule) {
+function renderEnrichment(enrichment) {
+  if (!enrichment || (!enrichment.importance && !enrichment.guidance && !enrichment.audience)) {
+    return '';
+  }
+  const rows = [
+    { label: 'Why it matters', value: enrichment.importance, cls: 'enrich-importance' },
+    { label: 'How to fix',     value: enrichment.guidance,   cls: 'enrich-guidance'   },
+    { label: 'Who is affected',value: enrichment.audience,   cls: 'enrich-audience'   }
+  ].filter(r => r.value);
+
+  if (!rows.length) return '';
+
+  return `
+        <div class="rule-enrichment">
+          ${rows.map(r => `
+          <div class="enrich-item">
+            <div class="enrich-label">${escapeHtml(r.label)}</div>
+            <div class="enrich-value ${r.cls}">${escapeHtml(r.value)}</div>
+          </div>`).join('')}
+        </div>`;
+}
+
+function renderRule(rule, enrichment) {
   const instancesHtml = rule.instances.map(renderInstance).join('');
   return `
     <div class="rule-section">
@@ -131,6 +153,7 @@ function renderRule(rule) {
           &nbsp;—&nbsp;${escapeHtml(rule.description)}
           &nbsp;<a href="${escapeHtml(rule.helpUrl)}" target="_blank" rel="noopener">Learn more →</a>
         </div>
+        ${renderEnrichment(enrichment)}
         ${instancesHtml}
       </div>
     </div>`;
@@ -140,11 +163,12 @@ function renderRule(rule) {
 
 /**
  * Generate an HTML report from an array of scan results.
- * @param {object[]} scanResults - Array returned by scanner.scanUrl()
- * @param {string}   [label]     - Optional label (e.g. hostname) for the title
+ * @param {object[]} scanResults   - Array returned by scanner.scanUrl()
+ * @param {string}   [label]       - Optional label (e.g. hostname) for the title
+ * @param {Map}      [enrichmentMap] - ruleId → { importance, guidance, audience }
  * @returns {string} Full HTML document
  */
-function generateReport(scanResults, label = '') {
+function generateReport(scanResults, label = '', enrichmentMap = new Map()) {
   const timestamp   = new Date().toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short' });
   const totalUrls   = scanResults.length;
   const errorCount  = scanResults.filter(r => r.error).length;
@@ -171,7 +195,7 @@ function generateReport(scanResults, label = '') {
         <p class="all-clear-title">No violations detected</p>
         <p class="all-clear-sub">All scanned URLs passed WCAG 2.1 / 2.2 Level AA automated checks.</p>
        </div>`
-    : sortedRules.map(renderRule).join('');
+    : sortedRules.map(rule => renderRule(rule, enrichmentMap.get(rule.id))).join('');
 
   const titleStr = label ? ` — ${escapeHtml(label)}` : '';
 
@@ -238,6 +262,15 @@ function generateReport(scanResults, label = '') {
     .rule-description { padding: 14px 20px; background: #fafbfc;
                         border-bottom: 1px solid #eee; font-size: 13px; color: #444; }
     .rule-description a { color: #1a5276; }
+
+    /* ── Enrichment panel (AI-generated Importance / Guidance / Audience) ── */
+    .rule-enrichment { border-bottom: 1px solid #eee; background: #f9f9ff; padding: 0 20px; }
+    .enrich-item { display: flex; gap: 0; border-bottom: 1px solid #eef; padding: 10px 0; }
+    .enrich-item:last-child { border-bottom: none; }
+    .enrich-label { width: 130px; flex-shrink: 0; font-size: 11px; font-weight: 700;
+                    text-transform: uppercase; letter-spacing: .4px; color: #555;
+                    padding-top: 2px; }
+    .enrich-value { flex: 1; font-size: 13px; color: #333; line-height: 1.55; }
 
     /* ── Instance ── */
     .instance { border-top: 1px solid #eee; padding: 18px 20px; }

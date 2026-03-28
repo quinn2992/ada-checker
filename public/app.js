@@ -255,6 +255,10 @@ function pollJob(jobId, total) {
       );
     }
 
+    if (msg.status === 'enriching') {
+      updateProgress('Generating AI-powered guidance for violations…', total, total, 100);
+    }
+
     if (msg.status === 'complete') {
       es.close();
       await fetchAndShowResults(jobId);
@@ -361,20 +365,37 @@ function buildInlinePreview(reportHtml) {
   if (!sections.length) return '<p style="color:#666;font-size:13px">No preview available — download the report to view results.</p>';
 
   return Array.from(sections).map(section => {
-    const header  = section.querySelector('.rule-header');
+    const header   = section.querySelector('.rule-header');
     const ruleName = header?.querySelector('.rule-name')?.textContent || '';
     const badgeEl  = header?.querySelector('.badge');
     const impact   = badgeEl?.textContent?.toLowerCase() || 'unknown';
     const count    = header?.querySelector('.count')?.textContent || '';
 
+    // Rule description row (help text + description)
+    const descEl   = section.querySelector('.rule-description');
+    const descText = descEl?.textContent?.trim().replace(/\s+/g, ' ') || '';
+
+    // AI enrichment fields
+    const importance = section.querySelector('.enrich-importance')?.textContent?.trim() || '';
+    const guidance   = section.querySelector('.enrich-guidance')?.textContent?.trim()   || '';
+    const audience   = section.querySelector('.enrich-audience')?.textContent?.trim()   || '';
+
+    const enrichHtml = [
+      importance ? `<div class="vg-enrich-row"><span class="vg-enrich-label">Why it matters</span><span class="vg-enrich-val">${esc(importance)}</span></div>` : '',
+      guidance   ? `<div class="vg-enrich-row"><span class="vg-enrich-label">How to fix</span><span class="vg-enrich-val">${esc(guidance)}</span></div>`   : '',
+      audience   ? `<div class="vg-enrich-row"><span class="vg-enrich-label">Who is affected</span><span class="vg-enrich-val">${esc(audience)}</span></div>` : ''
+    ].join('');
+
     const instances = section.querySelectorAll('.instance');
     const instancesHtml = Array.from(instances).slice(0, 5).map(inst => {
-      const url  = inst.querySelector('.instance-url a')?.textContent || '';
-      const html = inst.querySelector('code.code-block')?.textContent || '';
+      const url     = inst.querySelector('.instance-url a')?.textContent || '';
+      const html    = inst.querySelector('code.code-block')?.textContent || '';
+      const fixText = inst.querySelector('.fix-text')?.textContent?.trim() || '';
       return `
         <div class="vg-instance">
           <div class="vg-url">${esc(url)}</div>
-          ${html ? `<div class="vg-element">${esc(html)}</div>` : ''}
+          ${html    ? `<div class="vg-element">${esc(html)}</div>` : ''}
+          ${fixText ? `<div class="vg-fix">${esc(fixText)}</div>` : ''}
         </div>`;
     }).join('');
 
@@ -391,6 +412,8 @@ function buildInlinePreview(reportHtml) {
           <span class="vg-chevron">▼</span>
         </div>
         <div class="vg-body">
+          ${descText ? `<div class="vg-desc">${esc(descText)}</div>` : ''}
+          ${enrichHtml ? `<div class="vg-enrichment">${enrichHtml}</div>` : ''}
           ${instancesHtml}
           ${more}
         </div>
