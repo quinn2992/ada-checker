@@ -9,6 +9,7 @@
     "postinstall": "npx playwright install chromium"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
     "axe-core": "^4.9.1",
     "cheerio": "^1.0.0",
     "cors": "^2.8.5",
