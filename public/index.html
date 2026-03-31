@@ -51,41 +51,14 @@
 
   <!-- ── Tabs ──────────────────────────────────────────────────────────── -->
   <div class="tabs">
-    <button class="tab-btn active" data-tab="single">Scan a Single URL</button>
-    <button class="tab-btn" data-tab="report">Upload Violation Report</button>
+    <button class="tab-btn active" data-tab="report">Upload Violation Report</button>
+    <button class="tab-btn" data-tab="single">Scan a Single URL</button>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <!--  Tab 1: Single URL                                                  -->
+  <!--  Tab 1: Violation report upload                                     -->
   <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <div id="tab-single" class="tab-panel active">
-    <div class="card">
-      <div class="card-title">Scan a single URL</div>
-      <div class="card-desc">
-        Enter the full public URL of the page you want to check. The URL must be live and publicly accessible
-        (not behind a login or in sandbox mode).
-      </div>
-
-      <div class="url-row">
-        <input
-          type="url"
-          id="single-url"
-          class="url-input"
-          placeholder="https://yourcollege.edu/public-search/courses"
-          autocomplete="off"
-          spellcheck="false"
-        >
-        <button class="btn btn-primary" id="btn-scan-single">Scan URL</button>
-      </div>
-
-      <div id="single-error" class="error-msg hidden"></div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <!--  Tab 2: Violation report upload                                     -->
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <div id="tab-report" class="tab-panel">
+  <div id="tab-report" class="tab-panel active">
     <div class="card">
       <div class="card-title">Upload your violation report</div>
       <div class="card-desc">
@@ -126,6 +99,33 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!--  Tab 2: Single URL                                                  -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <div id="tab-single" class="tab-panel">
+    <div class="card">
+      <div class="card-title">Scan a single URL</div>
+      <div class="card-desc">
+        Enter the full public URL of the page you want to check. The URL must be live and publicly accessible
+        (not behind a login or in sandbox mode).
+      </div>
+
+      <div class="url-row">
+        <input
+          type="url"
+          id="single-url"
+          class="url-input"
+          placeholder="https://yourcollege.edu/public-search/courses"
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <button class="btn btn-primary" id="btn-scan-single">Scan URL</button>
+      </div>
+
+      <div id="single-error" class="error-msg hidden"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
   <!--  Progress state (shared)                                            -->
   <!-- ═══════════════════════════════════════════════════════════════════ -->
   <div id="progress-section" class="hidden mt-16">
@@ -160,6 +160,34 @@
 
     <div id="violations-list">
       <!-- Populated by JS -->
+    </div>
+
+    <!-- ── Baseline Comparison (optional) ─────────────────────────────── -->
+    <div class="baseline-section hidden" id="baseline-section">
+      <div class="baseline-upload-card">
+        <div class="baseline-header-row">
+          <div>
+            <h3 class="baseline-title">Baseline Comparison</h3>
+            <p class="baseline-desc">
+              Upload a previously-generated ADA violation report to compare against these results.
+              The tool will show which violations were fixed, which remain, and any new findings.
+            </p>
+          </div>
+        </div>
+
+        <div class="baseline-drop-zone" id="baseline-drop-zone">
+          <div class="drop-icon">📊</div>
+          <div class="drop-label" id="baseline-drop-label">Drop your baseline report here</div>
+          <div class="drop-sub" id="baseline-drop-sub">or click to browse &nbsp;·&nbsp; Accepts .htm and .html reports</div>
+          <input type="file" id="baseline-file-input" accept=".htm,.html">
+        </div>
+
+        <div id="baseline-error" class="error-msg hidden"></div>
+      </div>
+
+      <div id="comparison-results" class="hidden">
+        <!-- Populated by JS -->
+      </div>
     </div>
 
   </div>
