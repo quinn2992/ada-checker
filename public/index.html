@@ -194,6 +194,54 @@
 
 </main>
 
+<!-- ── Disclaimer modals ────────────────────────────────────────────── -->
+<div class="modal-overlay" id="modal-warning">
+  <div class="modal-box modal-warning">
+    <div class="modal-icon">⚠️</div>
+    <strong>Before you scan — your changes must be LIVE</strong>
+    <p>
+      This tool scans your public-facing URLs. Changes made in
+      <strong>sandbox or preview mode will not be detected.</strong>
+      Make sure you have published your updates to your live site before running a scan.
+      If you're unsure, contact your system administrator to confirm your changes are live.
+    </p>
+    <button class="btn btn-primary modal-accept" id="btn-accept-warning" autofocus>I understand</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-cs">
+  <div class="modal-box modal-cs">
+    <strong>Built by the Acadea Customer Success team.</strong>
+    <p>
+      This is not an officially supported Acadea product.
+      If you have questions, please <strong>do not submit a support ticket</strong> —
+      reach out directly to your CSM.
+    </p>
+    <button class="btn btn-primary modal-accept" id="btn-accept-cs">I understand</button>
+  </div>
+</div>
+
 <script src="app.js"></script>
+<script>
+(function() {
+  var warningModal = document.getElementById('modal-warning');
+  var csModal = document.getElementById('modal-cs');
+  var btnWarning = document.getElementById('btn-accept-warning');
+  var btnCs = document.getElementById('btn-accept-cs');
+
+  warningModal.classList.add('active');
+  btnWarning.focus();
+
+  btnWarning.addEventListener('click', function() {
+    warningModal.classList.remove('active');
+    csModal.classList.add('active');
+    btnCs.focus();
+  });
+
+  btnCs.addEventListener('click', function() {
+    csModal.classList.remove('active');
+  });
+})();
+</script>
 </body>
 </html>

@@ -639,6 +639,60 @@ body {
   font-style: italic;
 }
 
+/* ── Disclaimer modals ───────────────────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal-box {
+  background: #fff;
+  border-radius: 10px;
+  padding: 32px 36px;
+  max-width: 560px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0,0,0,.25);
+}
+
+.modal-box .modal-icon { font-size: 32px; margin-bottom: 12px; }
+
+.modal-box strong {
+  display: block;
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: #1a2744;
+}
+
+.modal-box p {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.modal-warning { border-top: 4px solid #f0c040; }
+.modal-warning strong { color: #7d5a00; }
+
+.modal-cs { border-top: 4px solid #c7d2fe; }
+.modal-cs strong { color: #3730a3; }
+
+.modal-accept {
+  min-width: 160px;
+}
+
+.modal-accept:focus {
+  outline: 3px solid #4a90d9;
+  outline-offset: 2px;
+}
+
 /* ── Utility ─────────────────────────────────────────────────────────── */
 .hidden { display: none !important; }
 .mt-16 { margin-top: 16px; }
