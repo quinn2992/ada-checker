@@ -1003,3 +1003,33 @@ function resetBaseline() {
   $('baseline-drop-sub').textContent = 'or click to browse \u00b7 Accepts .htm and .html reports';
   baselineFileInput.value = '';
 }
+
+// ═══════════════════════════════════════════════════════════════════════
+//  Tutorial Video Modal
+// ═══════════════════════════════════════════════════════════════════════
+
+const LOOM_EMBED_URL = 'https://www.loom.com/embed/5f3c84cba0ec475a81a8b36b31371051';
+
+$('tutorial-banner').addEventListener('click', () => {
+  $('tutorial-iframe').src = LOOM_EMBED_URL;
+  show($('tutorial-overlay'));
+});
+
+$('tutorial-close').addEventListener('click', () => {
+  hide($('tutorial-overlay'));
+  $('tutorial-iframe').src = '';
+});
+
+$('tutorial-overlay').addEventListener('click', (e) => {
+  if (e.target === $('tutorial-overlay')) {
+    hide($('tutorial-overlay'));
+    $('tutorial-iframe').src = '';
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !$('tutorial-overlay').classList.contains('hidden')) {
+    hide($('tutorial-overlay'));
+    $('tutorial-iframe').src = '';
+  }
+});

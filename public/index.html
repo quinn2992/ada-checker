@@ -40,6 +40,22 @@
   </div>
 </div>
 
+<!-- ── Tutorial video modal ────────────────────────────────────────────── -->
+<div class="tutorial-overlay hidden" id="tutorial-overlay">
+  <div class="tutorial-modal">
+    <button class="tutorial-close" id="tutorial-close" aria-label="Close tutorial">&times;</button>
+    <div class="tutorial-video-wrap">
+      <iframe
+        id="tutorial-iframe"
+        src=""
+        frameborder="0"
+        allowfullscreen
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      ></iframe>
+    </div>
+  </div>
+</div>
+
 <!-- ── Main content ────────────────────────────────────────────────────── -->
 <main class="main">
 
@@ -48,6 +64,16 @@
     Use this tool to verify whether the accessibility issues in your violation report have been resolved.
     You can scan a single URL or upload your original violation report to re-check all affected pages at once.
   </p>
+
+  <!-- ── Tutorial banner ──────────────────────────────────────────────── -->
+  <div class="tutorial-banner" id="tutorial-banner">
+    <div class="tutorial-play-icon">&#9654;</div>
+    <div class="tutorial-banner-text">
+      <strong>New here? Watch a quick walkthrough</strong>
+      <span>Learn how to use the ADA Checker in under 5 minutes</span>
+    </div>
+    <div class="tutorial-badge">Video Tutorial</div>
+  </div>
 
   <!-- ── Tabs ──────────────────────────────────────────────────────────── -->
   <div class="tabs">
