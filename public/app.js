@@ -144,9 +144,9 @@ async function handleFileUpload(file) {
     return;
   }
 
-  const MAX_SIZE = 30 * 1024 * 1024; // 30MB
+  const MAX_SIZE = 70 * 1024 * 1024; // 70MB
   if (file.size > MAX_SIZE) {
-    setError($('report-error'), `File is too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Maximum allowed size is 30 MB.`);
+    setError($('report-error'), `File is too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Maximum allowed size is 70 MB.`);
     return;
   }
 
@@ -937,9 +937,9 @@ function handleBaselineUpload(file) {
     return;
   }
 
-  const MAX_SIZE = 30 * 1024 * 1024;
+  const MAX_SIZE = 70 * 1024 * 1024;
   if (file.size > MAX_SIZE) {
-    setError($('baseline-error'), `File is too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Maximum allowed size is 30 MB.`);
+    setError($('baseline-error'), `File is too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Maximum allowed size is 70 MB.`);
     return;
   }
 
